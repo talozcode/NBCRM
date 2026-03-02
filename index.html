@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nadlan Bangkok CRM</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <img src="assets/nadlan-logo.svg" alt="Nadlan Bangkok logo" class="brand-logo" />
+          <div>
+            <div class="brand-name">Nadlan Bangkok</div>
+            <div class="brand-sub">Real Estate CRM</div>
+          </div>
+        </div>
+        <nav id="nav"></nav>
+        <button id="seedDataBtn" class="ghost-btn">Seed Demo Data</button>
+      </aside>
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p id="pageSubtitle">Your premium real-estate operating cockpit.</p>
+          </div>
+          <div class="quick-actions" id="quickActions"></div>
+        </header>
+        <section id="content"></section>
+      </main>
+    </div>
+
+    <dialog id="drawer" class="drawer">
+      <form method="dialog" class="drawer-card" id="drawerForm"></form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
