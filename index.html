@@ -3,19 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nadlan Bangkok CRM</title>
+    <title>NBCRM — Real Estate CRM</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="app-shell">
       <aside class="sidebar">
-        <div class="brand">
-          <img src="assets/nadlan-logo.svg" alt="Nadlan Bangkok logo" class="brand-logo" />
-          <div>
-            <div class="brand-name">Nadlan Bangkok</div>
-            <div class="brand-sub">Real Estate CRM</div>
-          </div>
-        </div>
+        <div class="brand">NBCRM</div>
         <nav id="nav"></nav>
         <button id="seedDataBtn" class="ghost-btn">Seed Demo Data</button>
       </aside>
@@ -34,6 +28,10 @@
     <dialog id="drawer" class="drawer">
       <form method="dialog" class="drawer-card" id="drawerForm"></form>
     </dialog>
+
+    <template id="cardTemplate">
+      <article class="card"></article>
+    </template>
 
     <script src="app.js"></script>
   </body>
