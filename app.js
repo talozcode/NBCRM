@@ -99,7 +99,12 @@ function renderNav() {
 
 function navigate(page) {
   state.page = page;
+  state.loading = true;
   render();
+  setTimeout(() => {
+    state.loading = false;
+    render();
+  }, 140);
 }
 
 function renderQuickActions() {
@@ -110,8 +115,12 @@ function renderQuickActions() {
     ['New Task', openTaskDrawer],
     ['Book Viewing', openViewingDrawer]
   ];
-  $('#quickActions').innerHTML = actions.map(([label], i) => `<button class="${i===0?'primary':'secondary'} action-btn" data-q="${i}">${label}</button>`).join('');
+  $('#quickActions').innerHTML = actions.map(([label], i) => `<button class="${i===0?'primary':'secondary'}" data-q="${i}">${label}</button>`).join('');
   $$('#quickActions [data-q]').forEach(btn => btn.onclick = () => actions[Number(btn.dataset.q)][1]());
+}
+
+function renderLoading() {
+  $('#content').innerHTML = `<div class="grid cols-3">${Array.from({ length: 6 }).map(() => '<div class="skeleton card"></div>').join('')}</div>`;
 }
 
 function metricCard(label, value, delta, tone = 'info') {
@@ -208,12 +217,12 @@ function renderLeadPage(type) {
   const kanban = `
     <div class="kanban">${stages.map(stage => `
       <section class="kanban-col">
-        <header><span>${stage}</span><span class="lane-count">${filtered.filter(f => f.stage === stage).length}</span></header>
+        <header>${stage} <span>${filtered.filter(f => f.stage === stage).length}</span></header>
         <div class="kanban-list">
           ${filtered.filter(f => f.stage === stage).map(lead => `
             <article class="kanban-card" data-open="${lead.id}">
-              <div class="kanban-card-top"><strong>${lead.fullName}</strong><span class="chip ${lead.priority === 'High' ? 'danger' : lead.priority === 'Medium' ? 'warning' : 'neutral'}">${lead.priority || 'Low'}</span></div>
-              <small>${lead.budget || 'Budget n/a'} • ${lead.source || 'Source n/a'}</small>
+              <strong>${lead.fullName}</strong>
+              <small>${lead.budget || 'Budget n/a'}</small>
               <div class="kanban-meta"><span>${lead.assignedAgent || 'Unassigned'}</span><span>${lead.nextFollowUp || '-'}</span></div>
             </article>
           `).join('') || '<p class="empty-inline">No leads</p>'}
@@ -246,21 +255,7 @@ function openDrawer(content, onSubmit) {
   const form = $('#drawerForm');
   form.innerHTML = content;
   drawer.showModal();
-
-  form.onclick = e => {
-    const cancelBtn = e.target.closest('button[value=\"cancel\"]');
-    if (!cancelBtn) return;
-    e.preventDefault();
-    drawer.close();
-  };
-
   form.onsubmit = e => {
-    const submitter = e.submitter;
-    if (submitter?.value === 'cancel') {
-      e.preventDefault();
-      drawer.close();
-      return;
-    }
     e.preventDefault();
     onSubmit(new FormData(form));
   };
@@ -638,6 +633,7 @@ function render() {
   renderNav();
   renderQuickActions();
   updateTopbar();
+  if (state.loading) return renderLoading();
   renderCurrentPage();
 }
 
